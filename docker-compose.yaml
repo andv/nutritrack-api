@@ -1,0 +1,10 @@
+
+services:
+  nutritrack-api:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app

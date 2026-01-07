@@ -1,0 +1,4 @@
+<!-- Разрешить все подключения (только для dev!) -->
+<yandex>
+    <listen_host>::</listen_host>
+</yandex>

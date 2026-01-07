@@ -1,5 +1,6 @@
 import os
 from clickhouse_connect import get_client
+from typing import List, Dict
 
 def get_clickhouse_client():
     return get_client(
@@ -10,14 +11,23 @@ def get_clickhouse_client():
         database=os.getenv("CLICKHOUSE_DB", "job_analytics")
     )
 
-""" версия без переменных окружения
-import clickhouse_connect
 
-def get_clickhouse_client():
-    return clickhouse_connect.get_client(
-        host='clickhouse',
-        port=8123,
-        username='default',
-        password='mypass123'
+def insert_vacancies(vacancies: List[Dict]):
+    client = get_clickhouse_client()
+    # Преобразуем в плоский формат для вставки
+    data = [
+        (
+            v["title"],
+            v["company"],
+            v["salary_raw"],
+            v["work_format"],
+            v["url"],
+            v["source"]
+        )
+        for v in vacancies
+    ]
+    client.insert(
+        "job_analytics.hh_vacancies",
+        data,
+        column_names=["title", "company", "salary_raw", "work_format", "url", "source"]
     )
-"""

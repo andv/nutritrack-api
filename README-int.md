@@ -47,21 +47,30 @@ CREATE TABLE job_analytics.hh_vacancies
     work_format String,
     url String,
     parsed_at DateTime DEFAULT now(),
-    page UInt8
+    page UInt8,
+    source String
 )
 ENGINE = MergeTree
 ORDER BY (parsed_at, company);
 
 
 ## Запуск для отладки
-docker-compose up --build 
+docker-compose up --build     #сборка контейнеров
 docker-compose exec nutritrack-api celery -A app.tasks.hh_parser worker --loglevel=info
-http://localhost:8000/docs
+http://localhost:8000/docs    #API
+#запуск приложения в докере:
+docker-compose exec nutritrack-api python3 -m app.api.main
+#запуск API в контейнере
+docker-compose exec nutritrack-api uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 #очистка контейнеров
 docker-compose down -v
 
 ## проверка clickhouse
+python3 -m app.py
+
+или
+
 clickhouse-client
 
 -- Посмотреть базы

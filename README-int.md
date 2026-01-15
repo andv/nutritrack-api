@@ -1,10 +1,12 @@
 # nutritrack-api
 
 STATUS: WIP:
-1. ok - python-приложение работает
-2. ok - поиск работает
+1. ok - python-приложение на httpio
+2. ok - поиск работает асинхронно
 3. ok - docker-контейнеры работают
 4. ok - clickhouse сохраняет данные
+5. todo - прикрутить Grafana
+6. todo - написать FE (FastAPI + Streamlit)
 
 nutritrack-api/
 ├── app/                 # Исходный код приложения
@@ -66,7 +68,7 @@ docker-compose exec nutritrack-api uvicorn app.main:app --host 0.0.0.0 --port 80
 #очистка контейнеров
 docker-compose down -v
 
-## проверка clickhouse
+## проверка содержимого clickhouse
 python3 -m app.py
 
 или
